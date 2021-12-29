@@ -1,6 +1,6 @@
-use chrono::{DateTime, Local, Timelike};
+use chrono::{DateTime, Local};
 
-use crate::ticket::Ticket;
+use crate::{date::MovieDateTime, ticket::Ticket};
 
 pub struct Vending {
     movie_date_time: DateTime<Local>,
@@ -12,10 +12,7 @@ impl Vending {
     }
 
     pub fn issue(&self) -> Ticket {
-        if self.movie_date_time.hour() >= 20 {
-            Ticket::new(true)
-        } else {
-            Ticket::new(false)
-        }
+        let date_time = MovieDateTime::new(self.movie_date_time);
+        Ticket::new(date_time)
     }
 }
