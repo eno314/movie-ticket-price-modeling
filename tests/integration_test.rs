@@ -57,7 +57,7 @@ mod default_price {
     #[test]
     fn when_movie_time_is_after_20h_on_weekend_then_1300() {
         let movie_dates = vec![
-            Local.ymd(2022, 1, 1).and_hms(20, 00, 00),
+            Local.ymd(2022, 1, 8).and_hms(20, 00, 00),
             Local.ymd(2022, 1, 2).and_hms(23, 59, 59),
         ];
         for &movie_date in movie_dates.iter() {
@@ -67,5 +67,45 @@ mod default_price {
 
             assert_eq!(1300, actual.price());
         }
+    }
+
+    #[test]
+    fn when_movie_day_is_first_then_1100() {
+        let movie_dates = vec![
+            Local.ymd(2021, 12, 1).and_hms(0, 00, 00),
+            Local.ymd(2022, 1, 1).and_hms(23, 59, 59),
+        ];
+        for &movie_date in movie_dates.iter() {
+            let vending = Vending::new(movie_date);
+
+            let actual = vending.issue();
+
+            assert_eq!(1100, actual.price());
+        }
+    }
+}
+
+mod senior {
+    use chrono::{DateTime, Local, TimeZone};
+    use movie_ticket_price_modeling::vending::Vending;
+
+    #[test]
+    fn when_age_is_more_than_70_then_1100() {
+        for &movie_date_time in get_movie_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_senior();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1100, ticket.price());
+        }
+    }
+
+    fn get_movie_date_times() -> Vec<DateTime<Local>> {
+        vec![
+            Local.ymd(2021, 12, 31).and_hms(19, 59, 59),
+            Local.ymd(2022, 1, 1).and_hms(23, 59, 59),
+            Local.ymd(2022, 1, 2).and_hms(23, 59, 59),
+        ]
     }
 }
