@@ -1,15 +1,21 @@
 use crate::date::MovieDateTime;
 
-pub struct Ticket {
+pub trait Ticket {
+    fn price(&self) -> u32;
+}
+
+pub struct GeneralTicket {
     date_time: MovieDateTime,
 }
 
-impl Ticket {
-    pub fn new(date_time: MovieDateTime) -> Self {
-        Ticket { date_time }
+impl GeneralTicket {
+    pub fn new(date_time: MovieDateTime) -> impl Ticket {
+        GeneralTicket { date_time }
     }
+}
 
-    pub fn price(&self) -> u32 {
+impl Ticket for GeneralTicket {
+    fn price(&self) -> u32 {
         if self.date_time.is_movie_day() {
             return 1100;
         }
@@ -17,5 +23,19 @@ impl Ticket {
             return 1300;
         }
         1800
+    }
+}
+
+pub struct SeniorTicket;
+
+impl SeniorTicket {
+    pub fn new() -> impl Ticket {
+        SeniorTicket {}
+    }
+}
+
+impl Ticket for SeniorTicket {
+    fn price(&self) -> u32 {
+        1100
     }
 }
