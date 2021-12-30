@@ -6,24 +6,34 @@ use crate::{
 };
 
 pub struct Vending {
-    user_age: u32,
+    age_type: AgeType,
     movie_date_time: DateTime<Local>,
 }
 
 impl Vending {
-    pub fn new(user_age: u32, movie_date_time: DateTime<Local>) -> Self {
+    pub fn new(movie_date_time: DateTime<Local>) -> Self {
         Vending {
-            user_age,
+            age_type: AgeType::GENERAL,
             movie_date_time,
         }
     }
 
+    pub fn set_senior(&mut self) {
+        self.age_type = AgeType::SENIOR;
+    }
+
     pub fn issue(&self) -> Box<dyn Ticket> {
-        if self.user_age >= 70 {
+        if self.age_type == AgeType::SENIOR {
             Box::new(SeniorTicket::new())
         } else {
             let date_time = MovieDateTime::new(self.movie_date_time);
             Box::new(GeneralTicket::new(date_time))
         }
     }
+}
+
+#[derive(PartialEq)]
+enum AgeType {
+    GENERAL,
+    SENIOR,
 }

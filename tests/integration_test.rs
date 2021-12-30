@@ -3,8 +3,6 @@ mod default_price {
     use chrono::{Local, TimeZone};
     use movie_ticket_price_modeling::vending::Vending;
 
-    const USER_AGE: u32 = 69;
-
     #[test]
     fn when_movie_time_is_before_20h_on_weekday_then_1800() {
         let movie_dates = vec![
@@ -15,7 +13,7 @@ mod default_price {
             Local.ymd(2021, 12, 31).and_hms(1, 2, 3),
         ];
         for &movie_date in movie_dates.iter() {
-            let vending = Vending::new(USER_AGE, movie_date);
+            let vending = Vending::new(movie_date);
 
             let actual = vending.issue();
 
@@ -33,7 +31,7 @@ mod default_price {
             Local.ymd(2022, 1, 7).and_hms(22, 05, 17),
         ];
         for &movie_date in movie_dates.iter() {
-            let vending = Vending::new(USER_AGE, movie_date);
+            let vending = Vending::new(movie_date);
 
             let actual = vending.issue();
 
@@ -48,7 +46,7 @@ mod default_price {
             Local.ymd(2021, 12, 26).and_hms(0, 0, 0),
         ];
         for &movie_date in movie_dates.iter() {
-            let vending = Vending::new(USER_AGE, movie_date);
+            let vending = Vending::new(movie_date);
 
             let actual = vending.issue();
 
@@ -63,7 +61,7 @@ mod default_price {
             Local.ymd(2022, 1, 2).and_hms(23, 59, 59),
         ];
         for &movie_date in movie_dates.iter() {
-            let vending = Vending::new(USER_AGE, movie_date);
+            let vending = Vending::new(movie_date);
 
             let actual = vending.issue();
 
@@ -78,7 +76,7 @@ mod default_price {
             Local.ymd(2022, 1, 1).and_hms(23, 59, 59),
         ];
         for &movie_date in movie_dates.iter() {
-            let vending = Vending::new(USER_AGE, movie_date);
+            let vending = Vending::new(movie_date);
 
             let actual = vending.issue();
 
@@ -94,7 +92,8 @@ mod senior {
     #[test]
     fn when_age_is_more_than_70_then_1100() {
         for &movie_date_time in get_movie_date_times().iter() {
-            let vending = Vending::new(70, movie_date_time);
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_senior();
 
             let ticket = vending.issue();
 
