@@ -86,8 +86,9 @@ mod default_price {
 }
 
 mod senior {
-    use chrono::{DateTime, Local, TimeZone};
     use movie_ticket_price_modeling::vending::Vending;
+
+    use crate::utils::get_movie_date_times;
 
     #[test]
     fn when_age_is_more_than_70_then_1100() {
@@ -100,8 +101,30 @@ mod senior {
             assert_eq!(1100, ticket.price());
         }
     }
+}
 
-    fn get_movie_date_times() -> Vec<DateTime<Local>> {
+mod students {
+    use movie_ticket_price_modeling::vending::Vending;
+
+    use crate::utils::get_movie_date_times;
+
+    #[test]
+    fn when_junior_high_school_students_then_1000() {
+        for &movie_date_time in get_movie_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_junior_high_or_high_school_students();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1000, ticket.price());
+        }
+    }
+}
+
+mod utils {
+    use chrono::{DateTime, Local, TimeZone};
+
+    pub fn get_movie_date_times() -> Vec<DateTime<Local>> {
         vec![
             Local.ymd(2021, 12, 31).and_hms(19, 59, 59),
             Local.ymd(2022, 1, 1).and_hms(23, 59, 59),
