@@ -109,7 +109,7 @@ mod students {
     use crate::utils::get_movie_date_times;
 
     #[test]
-    fn when_junior_high_school_students_then_1000() {
+    fn when_junior_high_or_high_school_students_then_1000() {
         for &movie_date_time in get_movie_date_times().iter() {
             let mut vending = Vending::new(movie_date_time);
             vending.set_junior_high_or_high_school_students();
