@@ -1,14 +1,38 @@
+use crate::date::MovieDateTime;
+
 use super::Ticket;
 
-pub struct JuniorHighOrHighSchoolStudents;
+pub struct CollegeOrVocationalSchoolStudentsTicket {
+    date_time: MovieDateTime,
+}
 
-impl JuniorHighOrHighSchoolStudents {
-    pub fn new() -> impl Ticket {
-        JuniorHighOrHighSchoolStudents {}
+impl CollegeOrVocationalSchoolStudentsTicket {
+    pub fn new(date_time: MovieDateTime) -> impl Ticket {
+        CollegeOrVocationalSchoolStudentsTicket { date_time }
     }
 }
 
-impl Ticket for JuniorHighOrHighSchoolStudents {
+impl Ticket for CollegeOrVocationalSchoolStudentsTicket {
+    fn price(&self) -> u32 {
+        if self.date_time.is_movie_day() {
+            return 1100;
+        }
+        if self.date_time.is_late_show() {
+            return 1300;
+        }
+        1500
+    }
+}
+
+pub struct JuniorHighOrHighSchoolStudentsTicket;
+
+impl JuniorHighOrHighSchoolStudentsTicket {
+    pub fn new() -> impl Ticket {
+        JuniorHighOrHighSchoolStudentsTicket {}
+    }
+}
+
+impl Ticket for JuniorHighOrHighSchoolStudentsTicket {
     fn price(&self) -> u32 {
         1000
     }
