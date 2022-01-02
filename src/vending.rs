@@ -15,16 +15,20 @@ impl Vending {
         }
     }
 
-    pub fn set_senior(&mut self) {
-        self.age = kinds::Age::Senior;
+    pub fn set_college_or_vocational_school_students(&mut self) {
+        self.age = kinds::Age::CollegeOrVocationalSchoolStudents;
     }
 
     pub fn set_junior_high_or_high_school_students(&mut self) {
-        self.age = kinds::Age::JuniorHighOrHighSchoolStudents
+        self.age = kinds::Age::JuniorHighOrHighSchoolStudents;
     }
 
-    pub fn set_college_or_vocational_school_students(&mut self) {
-        self.age = kinds::Age::CollegeOrVocationalSchoolStudents
+    pub fn set_primary_school_students_and_younger(&mut self) {
+        self.age = kinds::Age::PrimarySchoolStudentsAndYounger;
+    }
+
+    pub fn set_senior(&mut self) {
+        self.age = kinds::Age::Senior;
     }
 
     pub fn issue(&self) -> Box<dyn Ticket> {
@@ -33,8 +37,9 @@ impl Vending {
                 create_college_or_vocational_school_students(self.movie_date_time),
             ),
             kinds::Age::General => Box::new(create_general_ticket(self.movie_date_time)),
-            kinds::Age::JuniorHighOrHighSchoolStudents => {
-                Box::new(create_junior_high_or_high_school_students_ticket())
+            kinds::Age::JuniorHighOrHighSchoolStudents
+            | kinds::Age::PrimarySchoolStudentsAndYounger => {
+                Box::new(create_high_school_students_and_younger_ticket())
             }
             kinds::Age::Senior => Box::new(create_senior_ticket()),
         }
