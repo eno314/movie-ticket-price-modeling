@@ -108,6 +108,18 @@ mod students {
             assert_eq!(1100, actual.price());
         }
     }
+
+    #[test]
+    fn when_primary_school_students_and_younger_then_1000() {
+        for &movie_date_time in get_movie_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_primary_school_students_and_younger();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1000, ticket.price());
+        }
+    }
 }
 
 mod utils {

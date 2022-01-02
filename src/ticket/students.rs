@@ -24,15 +24,15 @@ impl Ticket for CollegeOrVocationalSchoolStudentsTicket {
     }
 }
 
-pub struct JuniorHighOrHighSchoolStudentsTicket;
+pub struct HighSchoolStudentsAndYoungerTicket;
 
-impl JuniorHighOrHighSchoolStudentsTicket {
+impl HighSchoolStudentsAndYoungerTicket {
     pub fn new() -> impl Ticket {
-        JuniorHighOrHighSchoolStudentsTicket {}
+        HighSchoolStudentsAndYoungerTicket {}
     }
 }
 
-impl Ticket for JuniorHighOrHighSchoolStudentsTicket {
+impl Ticket for HighSchoolStudentsAndYoungerTicket {
     fn price(&self) -> u32 {
         1000
     }
