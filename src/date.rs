@@ -1,4 +1,4 @@
-use chrono::{DateTime, Datelike, Local, Timelike};
+use chrono::{DateTime, Datelike, Local, Timelike, Weekday};
 
 pub struct MovieDateTime {
     date_time: DateTime<Local>,
@@ -18,5 +18,10 @@ impl MovieDateTime {
 
     pub fn is_movie_day(&self) -> bool {
         self.date_time.day() == Self::MOVIE_DAY
+    }
+
+    pub fn is_weekend(&self) -> bool {
+        let weekday = self.date_time.weekday();
+        weekday == Weekday::Sat || weekday == Weekday::Sun
     }
 }
