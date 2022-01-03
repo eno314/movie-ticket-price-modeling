@@ -4,11 +4,13 @@ use crate::date::MovieDateTime;
 
 use self::{
     general::GeneralTicket,
+    member::{MemberTicket, SeniorMemberTicket},
     senior::SeniorTicket,
     students::{CollegeOrVocationalSchoolStudentsTicket, HighSchoolStudentsAndYoungerTicket},
 };
 
 mod general;
+mod member;
 mod senior;
 mod students;
 
@@ -32,6 +34,15 @@ pub fn create_high_school_students_and_younger_ticket() -> impl Ticket {
     HighSchoolStudentsAndYoungerTicket::new()
 }
 
+pub fn create_member_ticket(movie_date_time: DateTime<Local>) -> impl Ticket {
+    let date_time = MovieDateTime::new(movie_date_time);
+    MemberTicket::new(date_time)
+}
+
 pub fn create_senior_ticket() -> impl Ticket {
     SeniorTicket::new()
+}
+
+pub fn create_senior_member_ticket() -> impl Ticket {
+    SeniorMemberTicket::new()
 }

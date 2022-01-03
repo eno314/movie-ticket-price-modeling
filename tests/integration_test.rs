@@ -122,15 +122,79 @@ mod students {
     }
 }
 
+mod member {
+    use movie_ticket_price_modeling::vending::Vending;
+
+    use crate::utils::*;
+
+    #[test]
+    fn when_member_on_weekday_then_1000() {
+        for &movie_date_time in get_weekday_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_member();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1000, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_member_on_weekend_before_20h_then_1300() {
+        for &movie_date_time in get_weekend_before_20h_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_member();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1300, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_member_on_weekend_after_20h_then_1000() {
+        for &movie_date_time in get_weekend_after_20h_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_member();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1000, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_member_on_movie_day_then_1100() {
+        for &movie_date_time in get_movie_day_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_member();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1100, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_senior_member_then_1000() {
+        for &movie_date_time in get_movie_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_senior_member();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1000, ticket.price());
+        }
+    }
+}
+
 mod utils {
     use chrono::{DateTime, Local, TimeZone};
 
     pub fn get_movie_date_times() -> Vec<DateTime<Local>> {
-        vec![
-            Local.ymd(2021, 12, 31).and_hms(19, 59, 59),
-            Local.ymd(2022, 1, 1).and_hms(23, 59, 59),
-            Local.ymd(2022, 1, 2).and_hms(23, 59, 59),
-        ]
+        let mut date_times = get_before_20h_date_times();
+        date_times.append(&mut get_after_20h_date_times());
+        date_times
     }
 
     pub fn get_weekday_before_20h_date_times() -> Vec<DateTime<Local>> {
@@ -183,6 +247,12 @@ mod utils {
     pub fn get_after_20h_date_times() -> Vec<DateTime<Local>> {
         let mut date_times = get_weekday_after_20h_date_times();
         date_times.append(&mut get_weekend_after_20h_date_times());
+        date_times
+    }
+
+    pub fn get_weekday_date_times() -> Vec<DateTime<Local>> {
+        let mut date_times = get_weekday_before_20h_date_times();
+        date_times.append(&mut get_weekday_after_20h_date_times());
         date_times
     }
 }
