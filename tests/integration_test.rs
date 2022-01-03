@@ -188,6 +188,36 @@ mod member {
     }
 }
 
+mod disabilities {
+    use movie_ticket_price_modeling::vending::Vending;
+
+    use crate::utils::*;
+
+    #[test]
+    fn when_disabilities_then_1000() {
+        for &movie_date_time in get_movie_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_disabilities();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1000, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_high_school_students_and_younger_with_disabilities_then_900() {
+        for &movie_date_time in get_movie_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_high_school_students_and_younger_with_disabilities();
+
+            let ticket = vending.issue();
+
+            assert_eq!(900, ticket.price());
+        }
+    }
+}
+
 mod utils {
     use chrono::{DateTime, Local, TimeZone};
 
