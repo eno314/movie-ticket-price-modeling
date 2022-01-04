@@ -4,7 +4,9 @@ use crate::ticket::*;
 
 enum TicketKinds {
     CollegeOrVocationalSchoolStudents,
+    Disabilities,
     General,
+    HighSchoolStudentsAndYoungerWithDisabilities,
     JuniorHighOrHighSchoolStudents,
     Member,
     PrimarySchoolStudentsAndYounger,
@@ -27,6 +29,14 @@ impl Vending {
 
     pub fn set_college_or_vocational_school_students(&mut self) {
         self.ticket_kinds = TicketKinds::CollegeOrVocationalSchoolStudents;
+    }
+
+    pub fn set_disabilities(&mut self) {
+        self.ticket_kinds = TicketKinds::Disabilities;
+    }
+
+    pub fn set_high_school_students_and_younger_with_disabilities(&mut self) {
+        self.ticket_kinds = TicketKinds::HighSchoolStudentsAndYoungerWithDisabilities;
     }
 
     pub fn set_junior_high_or_high_school_students(&mut self) {
@@ -54,7 +64,11 @@ impl Vending {
             TicketKinds::CollegeOrVocationalSchoolStudents => Box::new(
                 create_college_or_vocational_school_students(self.movie_date_time),
             ),
+            TicketKinds::Disabilities => Box::new(create_disabilities_ticket()),
             TicketKinds::General => Box::new(create_general_ticket(self.movie_date_time)),
+            TicketKinds::HighSchoolStudentsAndYoungerWithDisabilities => {
+                Box::new(create_high_school_students_and_younger_with_disabilities_ticket())
+            }
             TicketKinds::JuniorHighOrHighSchoolStudents
             | TicketKinds::PrimarySchoolStudentsAndYounger => {
                 Box::new(create_high_school_students_and_younger_ticket())
