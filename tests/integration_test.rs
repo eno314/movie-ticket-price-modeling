@@ -218,6 +218,57 @@ mod disabilities {
     }
 }
 
+mod mi_card {
+    use chrono::{Local, TimeZone};
+    use movie_ticket_price_modeling::vending::Vending;
+
+    use crate::utils::*;
+
+    #[test]
+    fn when_having_mi_card_on_before_20h_then_1600() {
+        for &movie_date_time in get_before_20h_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_having_mi_card();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1600, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_having_mi_card_on_after_20h_then_1300() {
+        for &movie_date_time in get_after_20h_date_times().iter() {
+            let mut vending = Vending::new(movie_date_time);
+            vending.set_having_mi_card();
+
+            let ticket = vending.issue();
+
+            assert_eq!(1300, ticket.price());
+        }
+    }
+
+    #[test]
+    fn when_having_mi_card_on_movie_day_before_20h_then_1600() {
+        let mut vending = Vending::new(Local.ymd(2021, 12, 1).and_hms(0, 00, 00));
+        vending.set_having_mi_card();
+
+        let ticket = vending.issue();
+
+        assert_eq!(1600, ticket.price());
+    }
+
+    #[test]
+    fn when_having_mi_card_on_movie_day_after_20h_then_1300() {
+        let mut vending = Vending::new(Local.ymd(2022, 1, 1).and_hms(23, 59, 59));
+        vending.set_having_mi_card();
+
+        let ticket = vending.issue();
+
+        assert_eq!(1300, ticket.price());
+    }
+}
+
 mod utils {
     use chrono::{DateTime, Local, TimeZone};
 

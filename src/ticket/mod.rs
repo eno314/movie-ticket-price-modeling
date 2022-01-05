@@ -6,6 +6,7 @@ use self::{
     disabilities::{DisabilitiesTicket, HighSchoolStudentsAndYoungerWithDisabilitiesTicket},
     general::GeneralTicket,
     member::{MemberTicket, SeniorMemberTicket},
+    mi_card::MiCardTicket,
     senior::SeniorTicket,
     students::{CollegeOrVocationalSchoolStudentsTicket, HighSchoolStudentsAndYoungerTicket},
 };
@@ -13,6 +14,7 @@ use self::{
 mod disabilities;
 mod general;
 mod member;
+mod mi_card;
 mod senior;
 mod students;
 
@@ -47,6 +49,11 @@ pub fn create_high_school_students_and_younger_with_disabilities_ticket() -> imp
 pub fn create_member_ticket(movie_date_time: DateTime<Local>) -> impl Ticket {
     let date_time = MovieDateTime::new(movie_date_time);
     MemberTicket::new(date_time)
+}
+
+pub fn create_mi_card_ticket(movie_date_time: DateTime<Local>) -> impl Ticket {
+    let date_time = MovieDateTime::new(movie_date_time);
+    MiCardTicket::new(date_time)
 }
 
 pub fn create_senior_ticket() -> impl Ticket {
