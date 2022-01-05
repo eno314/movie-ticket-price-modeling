@@ -6,6 +6,7 @@ enum TicketKinds {
     CollegeOrVocationalSchoolStudents,
     Disabilities,
     General,
+    HavingMiCard,
     HighSchoolStudentsAndYoungerWithDisabilities,
     JuniorHighOrHighSchoolStudents,
     Member,
@@ -33,6 +34,10 @@ impl Vending {
 
     pub fn set_disabilities(&mut self) {
         self.ticket_kinds = TicketKinds::Disabilities;
+    }
+
+    pub fn set_having_mi_card(&mut self) {
+        self.ticket_kinds = TicketKinds::HavingMiCard;
     }
 
     pub fn set_high_school_students_and_younger_with_disabilities(&mut self) {
@@ -66,6 +71,7 @@ impl Vending {
             ),
             TicketKinds::Disabilities => Box::new(create_disabilities_ticket()),
             TicketKinds::General => Box::new(create_general_ticket(self.movie_date_time)),
+            TicketKinds::HavingMiCard => Box::new(create_mi_card_ticket(self.movie_date_time)),
             TicketKinds::HighSchoolStudentsAndYoungerWithDisabilities => {
                 Box::new(create_high_school_students_and_younger_with_disabilities_ticket())
             }
